@@ -321,7 +321,7 @@ function loop(unadjusted, off = 0) {
   const chal8Tip = game.ord >= (game.base**(3*game.base+(game.base==5&&game.sfBought.includes(61) ? game.base : 0)));
   const tempSucc = game.succAuto * succAutoMult * totalMult;
   const tempLim = game.limAuto * limAutoMult * totalMult;
-  if (game.iups[3] === 1 && game.challenge !== 2) buptotalMute += 500000000;
+  if (game.iups[3] === 1 && buptotalMute <= 1e9) buptotalMute *= (1e9/buptotalMute)**0.5;
   if (game.iups[8] === 1 && game.challenge !== 2) buptotalMute += 1e15;
   if (
     (game.succAuto < 1e265 || game.limAuto < 1e265) &&
@@ -743,9 +743,7 @@ function render() {
       ? "You're currently not in a challenge"
       : game.omegaChallenge==1
       ? "You're currently in a Challenge " + game.challenge2[0] + " + " + game.challenge2[1] + " pair. You can't enter any other challenges"
-      : "You're currently running Challenge " + game.challenge;
-  get("challenge2Desc").textContent = game.upgrades.includes(12)?"and flat T2 speed from incrementy upgrades are":"is"
-  
+      : "You're currently running Challenge " + game.challenge;  
   get("incrementyText").textContent =
     "You have " +
     beautifyEN(game.incrementy) +
