@@ -88,7 +88,7 @@ function reset() {
   omegaChallenge: 0,
   ocBestIncrementy: [EN(0),EN(0),EN(0),EN(0),EN(0),EN(0),EN(0),EN(0),EN(0),EN(0),EN(0),EN(0)],
   challenge2: [0,0],
-  incrementyDouble: 0,
+  incrementyDouble: EN(0),
   bestFBps: 0,
   advAutoShift: 0,
   chal9: 0,
@@ -124,7 +124,19 @@ function reset() {
 }
 
 function load() {
-  const loadgame = JSON.parse(localStorage[(inPublicTesting()?"ordinalMarkupPublicTestingSave":"ordinalMarkupSave")]);
+  const testing = inPublicTesting()
+  const key = testing ? "ordinalMarkupPublicTestingSave" : "ordinalMarkupSave"
+
+  let loadgame = null
+
+  try {
+    loadgame = JSON.parse(localStorage[key])
+  } catch (err) {
+    loadgame = null
+
+    if (testing) console.log(err)
+  }
+
   if (loadgame !== null && AF === 0) {
     loadGame(loadgame);
   }
@@ -247,6 +259,10 @@ function handlePost0211Saves() {
     }
     game.version = 0.341
   }
+  if (game.version === 0.341){
+    if (game.theme == 2) game.theme = 1
+    game.version = 0.41
+  }
 }
 
 function handleOldVersions(loadgame) {
@@ -272,6 +288,7 @@ function loadGame(loadgame) {
   handleOldVersions(loadgame);
   game.cardinals = ENify(game.cardinals);
   game.incrementy = ENify(game.incrementy);
+  game.incrementyDouble = ENify(game.incrementyDouble);
   game.assCard[0].points = ENify(game.assCard[0].points);
   game.assCard[0].power = ENify(game.assCard[0].power);
   game.assCard[0].mult = ENify(game.assCard[0].mult);
