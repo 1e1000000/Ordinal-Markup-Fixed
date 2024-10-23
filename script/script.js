@@ -263,7 +263,7 @@ function loop(unadjusted, off = 0) {
     calcRefund();
   game.boosters=Math.round(game.boosters)
   if (game.boosters < -0.5) refund()
-  if (game.leastBoost <= 1e10 && game.OP < calcTotalOPGain()) {
+  if (game.leastBoost <= 1e300 && game.OP < calcTotalOPGain()) {
     game.OP +=
       calcTotalOPGain() >= 1e270 ? Infinity : (calcTotalOPGain() / 100000) * ms;
     if (game.OP > calcTotalOPGain()) game.OP = calcTotalOPGain();
